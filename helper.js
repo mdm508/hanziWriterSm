@@ -1,3 +1,6 @@
+// this function runs when the DOM is ready, i.e. when the document has been parsed
+document.addEventListener("DOMContentLoaded", handleQuery);
+
 function renderFanningStrokes(target, strokes) {
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.style.width = '75px';
@@ -57,3 +60,4 @@ function handleChange(){
     let c = document.getElementById("input").value
     loadCharacter(c);
 }
+

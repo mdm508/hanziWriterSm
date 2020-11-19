@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="hanzi-writer.js"></script>
-    <script type="text/javascript" src="helper.js"></script>
+    <script defer src="hanzi-writer.js" ></script>
+    <script defer type="text/javascript" src="helper.js"></script>
 </head>
-<body onloadedmetadata="handleQuery()" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
+<body style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
     <div>
         <svg id="svg-target" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
             <line x1="100" y1="0" x2="100" y2="200" stroke="#DDD" />
@@ -19,6 +19,6 @@
     </div>
     <input id="input" type="text" onchange="handleChange()" maxlength="1">
     <div>Type a chinese character</div>
-    <div id="target"></div>
+    <div id="target" style="margin-top: 2em"></div>
 </body>
 </html>
