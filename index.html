@@ -7,12 +7,12 @@
 </head>
 <body onLoad="handleQuery()" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
     <div>
-        <svg id="svg" xmlns="http://www.w3.org/2000/svg" width="200" height="200" id="grid-background-target">
-        <line x1="100" y1="0" x2="100" y2="200" stroke="#DDD" />
-        <line x1="0" y1="100" x2="200" y2="100" stroke="#DDD" />
-        <line x1="200" y1="0" x2="0" y2="200" stroke="#DDD" />
-        <line x1="0" y1="0" x2="200" y2="200" stroke="#DDD" />
-        <rect width="200" height="200" style="fill:none; stroke-width:1; stroke:rgb(0, 0, 0);" />
+        <svg id="svg-target" xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+            <line x1="100" y1="0" x2="100" y2="200" stroke="#DDD" />
+            <line x1="0" y1="100" x2="200" y2="100" stroke="#DDD" />
+            <line x1="200" y1="0" x2="0" y2="200" stroke="#DDD" />
+            <line x1="0" y1="0" x2="200" y2="200" stroke="#DDD" />
+            <rect width="200" height="200" style="fill:none; stroke-width:1; stroke:rgb(0, 0, 0);" />
         </svg>
     </div>
     <input id="input" type="text" onchange="handleChange()" maxlength="1">
@@ -56,21 +56,31 @@
             loadCharacter(c);
         }
 
-        function loadCharacter(c){
-            var writer = HanziWriter.create('svg', c, {
-                width: 200,
-                height: 200, padding: 5, 
-                showCharacter: false,
-                showOutline: false
-            });
-            HanziWriter.loadCharacterData(c).then(function(charData) {
-                var target = document.getElementById('target');
-                for (var i = 0; i < charData.strokes.length; i++) {
-                    var strokesPortion = charData.strokes.slice(0, i + 1);
-                    renderFanningStrokes(target, strokesPortion); 
-                    } 
-            });
-            writer.quiz({onComplete: () => writer.quiz()}) 
+        function loadCharacter(c, options){
+            var writer = HanziWriter.create('svg-target', c, options);
+            if (options == null){
+                // not called in recursive call
+                options = {
+                    width: 200,
+                    height: 200, padding: 5, 
+                    showCharacter: false,
+                    showOutline: false,
+                    radicalColor: "#ff0000" 
+                }
+                HanziWriter.loadCharacterData(c).then(function(charData) {
+                    for (var i = 0; i < charData.strokes.length; i++) {
+                        var strokesPortion = charData.strokes.slice(0, i + 1);
+                        renderFanningStrokes(target, strokesPortion); 
+                        } 
+                });
+            }
+            writer.quiz({onComplete: () => loadCharacter(c,
+                options = {
+                    width: 201,
+                    height: 200,
+                    radicalColor: "#ff0000" 
+                }
+            )}) 
         }
         function handleChange(){
             let c = document.getElementById("input").value
